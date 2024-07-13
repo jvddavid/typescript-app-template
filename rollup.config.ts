@@ -1,6 +1,8 @@
 import terser from '@rollup/plugin-terser'
 import typescript from '@rollup/plugin-typescript'
+import { builtinModules } from 'node:module'
 import { defineConfig } from 'rollup'
+import pkg from './package.json' assert { type: 'json' }
 
 export default defineConfig({
   input: 'src/index.ts',
@@ -21,5 +23,9 @@ export default defineConfig({
       tsconfig: './tsconfig.json'
     }),
     terser()
-  ]
+  ],
+  external: Object.keys(pkg.dependencies ?? {}).concat(
+    builtinModules,
+    builtinModules.map(module => `node:${module}`)
+  )
 })
