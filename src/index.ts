@@ -1,13 +1,11 @@
-import { sum } from '@/math/sum'
+import { sleep } from './utils'
 
-export class Lib {
-  private readonly a = 10
-
-  public static sayHello(): string {
-    return 'Hello, world!'
-  }
-
-  sum(b: number): number {
-    return sum(this.a, b)
-  }
+async function main(args: string[]) {
+  console.info('Hello, world!', args)
+  await sleep(1000)
 }
+
+main(process.argv.slice(2)).catch(err => {
+  console.error(err)
+  process.exit(1)
+})
